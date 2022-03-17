@@ -251,12 +251,21 @@ brks.qt = classIntervals(v, n = nTIclass, style = "quantile")$brks #length nTIcl
 TIC = cut(TI, breaks=brks.qt, include.lowest = T, right=T)
 #
 # A series of plots to show all of the components
-#
+#For difference between DEM and filled DEM
+plot(z-fel)
+mybasindif=crop(fel,mybasinmask)
+mybasindif=mask(mybasindif,mybasinmask)
+plot(mybasindif-mybasindem)
+
+#plotting all together
 par(mfrow = c(2, 2))
 plot(TI)
 plot(TIC)
-plot(mybasinsca)
-plot(mybasinslp)
+plot(mybasindem)
+plot(mybasindif-mybasindem)
+#plot(mybasinsca)
+#plot(mybasinslp)
+
 dev.off()
 plot(TIC,col=rainbow(5))
 # Make a poly with raster library (slow)
@@ -269,3 +278,5 @@ writeOGR(mydemw_poly,dsn=".",layer="mydemw",driver="ESRI Shapefile", overwrite_l
 # We will use this ESRI shape file, a zipped group of it, to download 
 # our soil extent from the WebSoilSurvey Website
 zip("mydemw.zip",list.files(pattern="mydemw[:.:]"))
+
+browseURL("https://websoilsurvey.sc.egov.usda.gov/App/WebSoilSurvey.aspx")
